@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 18:44:29 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/03 20:11:59 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/03 21:05:18 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@ int	ft_process(t_arg *data, char **env)
 	int		pipefd[2];
 	t_list	*tmp;
 
-	if (pipe(pipefd))
+	if (pipe(pipefd) == -1)
 		ft_exit(data);
 	ft_first_process(data, env, pipefd);
 	while (data->cmd->next)
 	{
 		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
+		if (dup2(pipefd[0], STDIN_FILENO) == -1)
+			ft_exit(data);
 		close(pipefd[0]);
-		if (pipe(pipefd))
+		if (pipe(pipefd) == -1)
 			ft_exit(data);
 		tmp = data->cmd;
 		data->cmd = data->cmd->next;
@@ -60,10 +61,12 @@ static void	ft_first_process(t_arg *data, char **env, int pipefd[2])
 			close(pipefd[1]);
 			ft_exit(data);
 		}
-		dup2(fd, STDIN_FILENO);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			ft_exit(data);
 		close (fd);
 		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			ft_exit(data);
 		close(pipefd[1]);
 		ft_exec(data, env);
 	}
@@ -79,7 +82,8 @@ static void	ft_middel_process(t_arg *data, char **env, int pipefd[2])
 	if (!pid)
 	{
 		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
+		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+			ft_exit(data);
 		close(pipefd[1]);
 		ft_exec(data, env);
 	}
@@ -98,7 +102,8 @@ static void	ft_last_process(t_arg *data, char **env)
 		fd = open(data->outfile, O_CREAT | O_WRONLY, 0644);
 		if (fd == -1)
 			ft_exit(data);
-		dup2(fd, STDOUT_FILENO);
+		if (dup2(fd, STDOUT_FILENO) == -1)
+			ft_exit(data);
 		close (fd);
 		ft_exec(data, env);
 	}
@@ -118,7 +123,7 @@ static void	ft_exec(t_arg *data, char **env)
 	{
 		path = ft_strjoin_three(data->path_list[i], "/", data->cmd->content[0]);
 		if (!path)
-			exit(EXIT_FAILURE);
+			ft_exit(data);
 		if (!access(path, X_OK))
 			execve(path, data->cmd->content, env);
 		free(path);
