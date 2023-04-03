@@ -6,14 +6,15 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 18:44:29 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/03 18:48:37 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/03 20:11:59 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 static void	ft_first_process(t_arg *data, char **env, int pipefd[2]);
-static void	ft_last_process(t_arg *data, char **env, int pipefd[2]);
+static void	ft_middel_process(t_arg *data, char **env, int pipefd[2]);
+static void	ft_last_process(t_arg *data, char **env);
 static void	ft_exec(t_arg *data, char **env);
 
 int	ft_process(t_arg *data, char **env)
@@ -24,17 +25,28 @@ int	ft_process(t_arg *data, char **env)
 	if (pipe(pipefd))
 		ft_exit(data);
 	ft_first_process(data, env, pipefd);
-	tmp = data->cmd;
-	data->cmd = data->cmd->next;
-	ft_lstdelone(tmp, ft_free_split);
-	ft_last_process(data, env, pipefd);
+	while (data->cmd->next)
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		if (pipe(pipefd))
+			ft_exit(data);
+		tmp = data->cmd;
+		data->cmd = data->cmd->next;
+		ft_lstdelone(tmp, ft_free_split);
+		if (data->cmd->next)
+			ft_middel_process(data, env, pipefd);
+		else
+			ft_last_process(data, env);
+	}
 	return (0);
 }
 
 static void	ft_first_process(t_arg *data, char **env, int pipefd[2])
 {
 	pid_t	pid;
-	int	fd;
+	int		fd;
 
 	pid = fork();
 	if (pid == -1)
@@ -57,21 +69,32 @@ static void	ft_first_process(t_arg *data, char **env, int pipefd[2])
 	}
 }
 
-/*ft_middel_process(&data, env);*/
-
-static void	ft_last_process(t_arg *data, char **env, int pipefd[2])
+static void	ft_middel_process(t_arg *data, char **env, int pipefd[2])
 {
 	pid_t	pid;
-	int	fd;
 
 	pid = fork();
 	if (pid == -1)
 		ft_exit(data);
 	if (!pid)
 	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		ft_exec(data, env);
+	}
+}
+
+static void	ft_last_process(t_arg *data, char **env)
+{
+	pid_t	pid;
+	int		fd;
+
+	pid = fork();
+	if (pid == -1)
+		ft_exit(data);
+	if (!pid)
+	{
 		fd = open(data->outfile, O_CREAT | O_WRONLY, 0644);
 		if (fd == -1)
 			ft_exit(data);
@@ -80,11 +103,7 @@ static void	ft_last_process(t_arg *data, char **env, int pipefd[2])
 		ft_exec(data, env);
 	}
 	else
-	{
-		close(pipefd[1]);
-		close(pipefd[0]);
 		waitpid(pid, NULL, 0);
-	}
 }
 
 static void	ft_exec(t_arg *data, char **env)

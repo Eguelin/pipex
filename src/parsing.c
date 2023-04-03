@@ -6,13 +6,13 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:19:24 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/03 18:48:21 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/03 19:59:58 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char	**ft_path_list(char **env);
+static char		**ft_path_list(char **env);
 static t_list	*ft_cmd(int argc, char **argv);
 
 void	parsing_pipex(t_arg *data, int argc, char **argv, char **env)
