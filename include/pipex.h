@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:43:10 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/01 19:47:13 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/03 18:49:22 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ typedef struct s_arg
 }	t_arg;
 
 void	parsing_pipex(t_arg *data, int argc, char **argv, char **env);
+void	ft_free_data(t_arg *data);
+void	ft_exit(t_arg *data);
+
+int		ft_process(t_arg *data, char **env);
 
 #endif

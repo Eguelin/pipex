@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/27 14:20:28 by eguelin           #+#    #+#              #
-#    Updated: 2023/04/01 20:25:45 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/04/03 18:47:40 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ INC_DIR	= include/
 LIB_DIR	= lib/
 NAME	= pipex
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra -I $(INC_DIR) -g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -I $(INC_DIR) #-g3 -fsanitize=address
 RM		= rm -rf
 ARC		= ar rcs
 
@@ -37,7 +37,7 @@ CLEAN_MSG		= "$(RED)Cleaning $(NAME) $(WHITE)done on $(YELLOW)$(shell date +'%Y-
 FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(WHITE)done on $(YELLOW)$(shell date +'%Y-%m-%d %H:%M:%S')$(WHITE)"
 
 #Sources
-ALL_FILES = main.c parsing.c
+ALL_FILES = main.c parsing.c process.c
 #..._DIR = ../
 #ALL_FILES = ..
 #ALL_FILES = $(addprefix $(..._DIR), $(..._FILES))

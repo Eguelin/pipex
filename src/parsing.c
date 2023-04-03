@@ -6,14 +6,14 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:19:24 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/01 19:52:28 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/03 18:48:21 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**ft_path_list(char **env);
-t_list	*ft_cmd(int argc, char **argv);
+static char	**ft_path_list(char **env);
+static t_list	*ft_cmd(int argc, char **argv);
 
 void	parsing_pipex(t_arg *data, int argc, char **argv, char **env)
 {
@@ -28,7 +28,7 @@ void	parsing_pipex(t_arg *data, int argc, char **argv, char **env)
 	}
 }
 
-char	**ft_path_list(char **env)
+static char	**ft_path_list(char **env)
 {
 	char	**path_list;
 	int		i;
@@ -46,7 +46,7 @@ char	**ft_path_list(char **env)
 	return (path_list);
 }
 
-t_list	*ft_cmd(int argc, char **argv)
+static t_list	*ft_cmd(int argc, char **argv)
 {
 	int		i;
 	char	**cmd;
