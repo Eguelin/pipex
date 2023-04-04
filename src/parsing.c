@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:19:24 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/03 19:59:58 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/04 15:48:08 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,18 @@ static char	**ft_path_list(char **env)
 	int		i;
 
 	i = 0;
-	while (ft_strncmp(env[i], "PATH=", 5) != 0)
+	while (env[i])
 	{
+		if (ft_strlen(env[i]) >= 5 && !ft_strncmp(env[i], "PATH=", 5))
+		{
+			path_list = ft_split(env[i] + 5, ':');
+			if (!path_list)
+				exit(EXIT_FAILURE);
+			return (path_list);
+		}
 		i++;
-		if (!env[i])
-			return (NULL);
 	}
-	path_list = ft_split(env[i] + 5, ':');
-	if (!path_list)
-		exit(EXIT_FAILURE);
-	return (path_list);
+	return (NULL);
 }
 
 static t_list	*ft_cmd(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 18:44:29 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/03 21:05:18 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/04 14:52:06 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void	ft_exec(t_arg *data, char **env)
 	i = 0;
 	if (!access(data->cmd->content[0], X_OK))
 		execve(data->cmd->content[0], data->cmd->content, env);
-	while (data->path_list[i])
+	while (data->path_list && data->path_list[i])
 	{
 		path = ft_strjoin_three(data->path_list[i], "/", data->cmd->content[0]);
 		if (!path)
@@ -129,4 +129,5 @@ static void	ft_exec(t_arg *data, char **env)
 		free(path);
 		i++;
 	}
+	ft_exit(data);
 }
