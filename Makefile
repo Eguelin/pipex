@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/27 14:20:28 by eguelin           #+#    #+#              #
-#    Updated: 2023/04/03 18:47:40 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/04/06 15:24:43 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ LIB			= $(addprefix $(LIB_DIR), $(LIB_FILES))
 #Rules
 all: $(NAME)
 
-$(NAME): $(OUT_DIR) $(OBJS) | lib
+$(NAME): $(OUT_DIR) $(OBJS) $(LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $(NAME)
 	@echo $(COMP_MSG)
 	@norminette | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(WHITE)"}'
@@ -76,11 +76,13 @@ fclean:
 
 re: fclean all
 
-lib:
+$(LIB): force
 	$(MAKE) -C ./lib/mylib
 
-$(OUT_DIR):
+$(OUT_DIR): force
 	mkdir -p $(shell find $(SRC_DIR) -type d | awk -F "$(SRC_DIR)" '$$NF!="$(SRC_DIR)" {print "$(OUT_DIR)"$$(NF)}')
 
-.PHONY: all clean fclean re lib
+force:
+
+.PHONY: all clean fclean re force
 .SILENT:
