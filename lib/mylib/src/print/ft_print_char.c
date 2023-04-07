@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:57:42 by eguelin           #+#    #+#             */
-/*   Updated: 2023/02/15 17:20:51 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/07 16:26:41 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	ft_print_char(char c)
 {
-	return (write(1, &c, 1));
+	return (write(2, &c, 1));
 }
