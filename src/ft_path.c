@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:04:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/08 14:06:09 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/08 20:29:51 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ char	*ft_relative_path(char **argv, char **cmd, t_data *data)
 {
 	if (ft_strchr(cmd[0], '/'))
 	{
-		if (!access(cmd[0], F_OK))
+		if (!access(cmd[0], X_OK))
+			return (cmd[0]);
+		else if (!access(cmd[0], F_OK))
 		{
 			ft_printf("%s: permission denied: %s\n", argv[0], cmd[0]);
 			ft_free_split(cmd);
@@ -47,7 +49,6 @@ char	*ft_relative_path(char **argv, char **cmd, t_data *data)
 			ft_free_split(cmd);
 			ft_exit(data, EXIT_FAILURE);
 		}
-		return (cmd[0]);
 	}
 	return (NULL);
 }

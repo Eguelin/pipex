@@ -6,3 +6,4 @@ a.out*
 build
 pipex
 test*
+.nfs*
