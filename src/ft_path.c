@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:04:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/09 15:44:25 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 18:03:41 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_path_list(char **env, t_data *data)
 		}
 		i++;
 	}
-	data->path_list = NULL;
 }
 
 char	*ft_relative_path(char **argv, char **cmd, t_data *data)
