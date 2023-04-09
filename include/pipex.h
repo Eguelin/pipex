@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:43:10 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/08 14:07:04 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 13:25:34 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_data
 void	ft_path_list(char **env, t_data *data);
 char	*ft_relative_path(char **argv, char **cmd, t_data *data);
 char	*ft_absolute_path(char **argv, char **cmd, t_data *data);
+
+void	ft_open_infile(char **argv, t_data *data);
+void	ft_open_outfile(char **argv, t_data *data);
+void	ft_dup_fd_stdin(int fd, t_data *data);
+void	ft_dup_fd_stdout(int fd, t_data *data);
+void	ft_here_doc(t_data *data);
 
 void	ft_exit(t_data *data, int i);
 

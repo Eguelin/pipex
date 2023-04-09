@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/08 20:26:57 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 13:48:48 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 int		ft_pipex(int argc, char **argv, char **env, t_data *data);
 int		ft_process(char **argv, char **env, t_data *data);
 void	ft_exec(char **argv, char **env, t_data *data);
-void	ft_open_infile(char **argv, t_data *data);
-void	ft_open_outfile(char **argv, t_data *data);
-void	ft_dup_fd_stdin(int fd, t_data *data);
-void	ft_dup_fd_stdout(int fd, t_data *data);
-void	ft_here_doc(t_data *data);
-void	ft_exit(t_data *data, int i);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -31,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 	i = 0;
 	if (argc < 2)
 		return (1);
-	if (ft_strncmp(argv[1], "here_doc", 8))
+	if (ft_strlen(argv[1]) == 8 && ft_strncmp(argv[1], "here_doc", 8))
 		ft_open_infile(argv, &data);
 	else
 		ft_here_doc(&data);
@@ -75,8 +69,8 @@ int	ft_process(char **argv, char **env, t_data *data)
 		ft_exit(data, EXIT_FAILURE);
 	if (!pid)
 	{
-		if (data->cmd == 2 || (!ft_strncmp(argv[1], "here_doc", 8) \
-		&& data->cmd == 3))
+		if (data->cmd == 2 || (ft_strlen(argv[1]) == 8 && \
+		!ft_strncmp(argv[1], "here_doc", 8) && data->cmd == 3))
 			close(data->pipefd[0]);
 		if (data->cmd == 2 && access(argv[1], R_OK))
 		{
@@ -104,65 +98,6 @@ void	ft_exec(char **argv, char **env, t_data *data)
 	if (!path)
 		path = ft_absolute_path(argv, cmd, data);
 	execve(path, cmd, env);
-}
-
-void	ft_open_infile(char **argv, t_data *data)
-{
-	int	fd;
-
-	data->cmd = 2;
-	if (access(argv[1], F_OK))
-	{
-		ft_printf("%s: no such file or directory: %s\n", argv[0], \
-		argv[1]);
-		return ;
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		ft_printf("%s: permission denied: %s\n", argv[0], argv[1]);
-		return ;
-	}
-	ft_dup_fd_stdin(fd, data);
-}
-
-void	ft_open_outfile(char **argv, t_data *data)
-{
-	int	fd;
-
-	fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY, 0644);
-	if (fd == -1)
-	{
-		ft_printf("%s: permission denied: %s\n", argv[0], argv[data->cmd + 1]);
-		ft_exit(data, EXIT_FAILURE);
-	}
-	ft_dup_fd_stdout(fd, data);
-}
-
-void	ft_dup_fd_stdin(int fd, t_data *data)
-{
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		close(fd);
-		ft_exit(data, EXIT_FAILURE);
-	}
-	close(fd);
-}
-
-void	ft_dup_fd_stdout(int fd, t_data *data)
-{
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		close(fd);
-		ft_exit(data, EXIT_FAILURE);
-	}
-	close(fd);
-}
-
-void	ft_here_doc(t_data *data)
-{
-	data->cmd = 3;
-	ft_exit(data, EXIT_FAILURE);
 }
 
 void	ft_exit(t_data *data, int i)
