@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 13:24:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/09 19:18:36 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 20:48:16 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,19 @@ int	ft_open_outfile(char **argv, t_data *data)
 		argv[data->cmd + 1]);
 		ft_exit(data, EXIT_FAILURE);
 	}
-	if (!access(argv[data->cmd + 1], F_OK))
-		unlink(argv[data->cmd + 1]);
-	fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY, 0644);
-	if (fd == -1)
+	else if (!access(argv[data->cmd + 1], F_OK))
 	{
-		ft_printf("%s: permission denied: %s\n", argv[0], argv[data->cmd + 1]);
-		ft_exit(data, EXIT_FAILURE);
+		if (access(argv[data->cmd + 1], W_OK))
+		{
+			ft_printf("%s: permission denied: %s\n", argv[0], \
+			argv[data->cmd + 1]);
+			ft_exit(data, EXIT_FAILURE);
+		}
+		unlink(argv[data->cmd + 1]);
 	}
+	fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY, 0755);
+	if (fd == -1)
+		ft_exit(data, EXIT_FAILURE);
 	return (fd);
 }
 
