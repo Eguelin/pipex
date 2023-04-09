@@ -6,14 +6,14 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/09 13:48:48 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 15:44:07 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int		ft_pipex(int argc, char **argv, char **env, t_data *data);
-int		ft_process(char **argv, char **env, t_data *data);
+pid_t	ft_pipex(int argc, char **argv, char **env, t_data *data);
+pid_t	ft_process(char **argv, char **env, t_data *data);
 void	ft_exec(char **argv, char **env, t_data *data);
 
 int	main(int argc, char **argv, char **env)
@@ -25,10 +25,10 @@ int	main(int argc, char **argv, char **env)
 	i = 0;
 	if (argc < 2)
 		return (1);
-	if (ft_strlen(argv[1]) == 8 && ft_strncmp(argv[1], "here_doc", 8))
-		ft_open_infile(argv, &data);
-	else
+	if (ft_strlen(argv[1]) == 8 && !ft_strncmp(argv[1], "here_doc", 8))
 		ft_here_doc(&data);
+	else
+		ft_open_infile(argv, &data);
 	ft_path_list(env, &data);
 	pid = ft_pipex(argc, argv, env, &data);
 	waitpid(pid, &i, 0);
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 	return (WEXITSTATUS(i));
 }
 
-int	ft_pipex(int argc, char **argv, char **env, t_data *data)
+pid_t	ft_pipex(int argc, char **argv, char **env, t_data *data)
 {
 	pid_t	pid;
 
@@ -51,7 +51,7 @@ int	ft_pipex(int argc, char **argv, char **env, t_data *data)
 				ft_exit(data, EXIT_FAILURE);
 		pid = ft_process(argv, env, data);
 		data->cmd++;
-		if (argv[data->cmd])
+		if (argv[data->cmd +1])
 		{
 			close(data->pipefd[1]);
 			ft_dup_fd_stdin(data->pipefd[0], data);
@@ -60,7 +60,7 @@ int	ft_pipex(int argc, char **argv, char **env, t_data *data)
 	return (pid);
 }
 
-int	ft_process(char **argv, char **env, t_data *data)
+pid_t	ft_process(char **argv, char **env, t_data *data)
 {
 	pid_t	pid;
 
@@ -77,7 +77,7 @@ int	ft_process(char **argv, char **env, t_data *data)
 			close(data->pipefd[1]);
 			ft_exit(data, EXIT_FAILURE);
 		}
-		if	(argv[data->cmd + 2])
+		if (argv[data->cmd + 2])
 			ft_dup_fd_stdout(data->pipefd[1], data);
 		else
 			ft_open_outfile(argv, data);
@@ -91,6 +91,11 @@ void	ft_exec(char **argv, char **env, t_data *data)
 	char	*path;
 	char	**cmd;
 
+	if (!argv[data->cmd][0])
+	{
+		ft_printf("%s: permission denied: %s\n", argv[0], argv[data->cmd]);
+		ft_exit(data, EXIT_FAILURE);
+	}
 	cmd = ft_split(argv[data->cmd], ' ');
 	if (!cmd)
 		ft_exit(data, EXIT_FAILURE);
