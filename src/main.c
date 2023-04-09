@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/09 15:44:07 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/09 16:31:11 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid;
 
 	i = 0;
-	if (argc < 2)
+	if (argc < 3)
+	{
+		ft_printf("%s: parse error near `\\n'\n", argv[0]);
 		return (1);
+	}
 	if (ft_strlen(argv[1]) == 8 && !ft_strncmp(argv[1], "here_doc", 8))
 		ft_here_doc(&data);
 	else
@@ -69,8 +72,8 @@ pid_t	ft_process(char **argv, char **env, t_data *data)
 		ft_exit(data, EXIT_FAILURE);
 	if (!pid)
 	{
-		if (data->cmd == 2 || (ft_strlen(argv[1]) == 8 && \
-		!ft_strncmp(argv[1], "here_doc", 8) && data->cmd == 3))
+		if (argv[data->cmd + 2] && (data->cmd == 2 || (ft_strlen(argv[1]) == 8 \
+		&& !ft_strncmp(argv[1], "here_doc", 8) && data->cmd == 3)))
 			close(data->pipefd[0]);
 		if (data->cmd == 2 && access(argv[1], R_OK))
 		{
