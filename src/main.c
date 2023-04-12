@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 15:00:21 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 16:26:13 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	ft_exec(char **argv, char **env, t_data *data)
 	cmd = ft_split(argv[data->cmd], ' ');
 	if (!cmd)
 		ft_exit(data, EXIT_FAILURE);
-	path = ft_relative_path(argv, cmd, data);
+	path = ft_check_absolute_path(argv, cmd, data);
 	if (!path)
-		path = ft_absolute_path(argv, cmd, data);
+		path = ft_check_relative_path(argv, cmd, data);
 	execve(path, cmd, env);
 }

@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:04:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 15:23:54 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 16:24:49 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_path_list(char **env, t_data *data)
 	}
 }
 
-char	*ft_relative_path(char **argv, char **cmd, t_data *data)
+char	*ft_check_absolute_path(char **argv, char **cmd, t_data *data)
 {
 	if (ft_strchr(cmd[0], '/'))
 	{
@@ -52,7 +52,7 @@ char	*ft_relative_path(char **argv, char **cmd, t_data *data)
 	return (NULL);
 }
 
-char	*ft_absolute_path(char **argv, char **cmd, t_data *data)
+char	*ft_check_relative_path(char **argv, char **cmd, t_data *data)
 {
 	char	*path;
 	int		i;

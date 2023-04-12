@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:15:24 by eguelin           #+#    #+#              #
-#    Updated: 2023/04/12 14:32:50 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/04/12 15:42:45 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,20 +40,12 @@ GET_DIR = get/
 GET_FILES = get_next_line.c
 ALL_FILES = $(addprefix $(GET_DIR), $(GET_FILES))
 
-IS_DIR = is/
-IS_FILES = ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c
-ALL_FILES += $(addprefix $(IS_DIR), $(IS_FILES))
-
-LST_DIR = lst/
-LST_FILES = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c ft_lstmap.c ft_lstnew.c ft_lstsize.c
-ALL_FILES += $(addprefix $(LST_DIR), $(LST_FILES))
-
 MEM_DIR = mem/
-MEM_FILES = ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c
+MEM_FILES = ft_memset.c
 ALL_FILES += $(addprefix $(MEM_DIR), $(MEM_FILES))
 
 OTHER_DIR = other/
-OTHER_FILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_free_split.c ft_itoa.c ft_split.c ft_tolower.c ft_toupper.c
+OTHER_FILES = ft_free_split.c ft_split.c
 ALL_FILES += $(addprefix $(OTHER_DIR), $(OTHER_FILES))
 
 PRINT_DIR = print/
@@ -61,11 +53,11 @@ PRINT_FILES = ft_print_address.c ft_print_all.c ft_print_base.c ft_print_char.c 
 ALL_FILES += $(addprefix $(PRINT_DIR), $(PRINT_FILES))
 
 PUT_DIR = put/
-PUT_FILES = ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c
+PUT_FILES = ft_putstr_fd.c
 ALL_FILES += $(addprefix $(PUT_DIR), $(PUT_FILES))
 
 STR_DIR = str/
-STR_FILES = ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strjoin_three.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c
+STR_FILES = ft_strchr.c ft_strjoin.c ft_strjoin_three.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strncmp.c
 ALL_FILES += $(addprefix $(STR_DIR), $(STR_FILES))
 
 INC_FILES	= mylib.h
