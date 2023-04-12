@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 13:24:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 15:27:16 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 18:18:31 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_open_outfile(char **argv, t_data *data)
 	{
 		ft_printf("%s: cannot create %s: Directory nonexistent\n", argv[0], \
 		argv[data->cmd + 1]);
-		ft_exit(data, EXIT_FAILURE);
+		ft_exit(data, 2);
 	}
 	if (data->here_doc)
 		fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY | O_APPEND, 0755);
@@ -48,7 +48,7 @@ int	ft_open_outfile(char **argv, t_data *data)
 	{
 		ft_printf("%s: cannot create %s: Permission denied\n", argv[0], \
 		argv[data->cmd + 1]);
-		ft_exit(data, EXIT_FAILURE);
+		ft_exit(data, 2);
 	}
 	return (fd);
 }

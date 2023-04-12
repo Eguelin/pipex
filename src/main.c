@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 16:26:13 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 18:24:23 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc <= 3 || (argc <= 4 && data.here_doc))
 	{
 		ft_printf("%s: Syntax error: newline unexpected\n", argv[0]);
-		return (EXIT_FAILURE);
+		return (2);
 	}
 	if (data.here_doc)
 	{
@@ -76,7 +76,7 @@ void	ft_process(char **argv, char **env, t_data *data)
 		if (data->cmd == 2 && access(argv[1], R_OK))
 		{
 			ft_close(&data->pipefd[1]);
-			ft_exit(data, EXIT_FAILURE);
+			ft_exit(data, 126);
 		}
 		if (argv[data->cmd + 2])
 			ft_dup(data->pipefd[1], STDOUT_FILENO, data);
@@ -94,7 +94,7 @@ void	ft_exec(char **argv, char **env, t_data *data)
 	if (!argv[data->cmd][0])
 	{
 		ft_printf("%s: %s: Permission denied\n", argv[0], argv[data->cmd]);
-		ft_exit(data, EXIT_FAILURE);
+		ft_exit(data, 127);
 	}
 	cmd = ft_split(argv[data->cmd], ' ');
 	if (!cmd)

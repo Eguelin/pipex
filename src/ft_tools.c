@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:30:23 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 15:27:52 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 18:19:38 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	ft_dup(int fd, int fd2, t_data *data)
 	if (dup2(fd, fd2) == -1)
 	{
 		close(fd);
-		if (fd == data->pipefd[1])
+		if (fd == data->pipefd[0])
 			data->pipefd[0] = -1;
 		else if (fd == data->pipefd[1])
 			data->pipefd[1] = -1;
 		ft_exit(data, EXIT_FAILURE);
 	}
 	close(fd);
-	if (fd == data->pipefd[1])
+	if (fd == data->pipefd[0])
 		data->pipefd[0] = -1;
 	else if (fd == data->pipefd[1])
 		data->pipefd[1] = -1;
