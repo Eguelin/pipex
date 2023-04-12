@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/27 14:20:28 by eguelin           #+#    #+#              #
-#    Updated: 2023/04/11 17:37:36 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/04/12 16:32:48 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,9 +38,6 @@ FULL_CLEAN_MSG	= "$(PURPLE)Full cleaning $(NAME) $(WHITE)done on $(YELLOW)$(shel
 
 #Sources
 ALL_FILES = main.c ft_path.c ft_file.c ft_tools.c
-#..._DIR = ../
-#ALL_FILES = ..
-#ALL_FILES = $(addprefix $(..._DIR), $(..._FILES))
 
 MYLIB_DIR = mylib/
 MYLIB_FILES = mylib.a
