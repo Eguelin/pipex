@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 13:24:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/11 19:08:14 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 15:27:16 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	ft_open_infile(char **argv)
 
 	if (!argv[1][0] || access(argv[1], F_OK))
 	{
-		ft_printf("%s: no such file or directory: %s\n", argv[0], argv[1]);
+		ft_printf("%s: cannot open %s: No such file\n", argv[0], argv[1]);
 		return (-1);
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf("%s: permission denied: %s\n", argv[0], argv[1]);
+		ft_printf("%s: cannot open %s: Permission denied\n", argv[0], argv[1]);
 		return (-1);
 	}
 	return (fd);
@@ -36,7 +36,7 @@ int	ft_open_outfile(char **argv, t_data *data)
 
 	if (!argv[data->cmd + 1][0])
 	{
-		ft_printf("%s: no such file or directory: %s\n", argv[0], \
+		ft_printf("%s: cannot create %s: Directory nonexistent\n", argv[0], \
 		argv[data->cmd + 1]);
 		ft_exit(data, EXIT_FAILURE);
 	}
@@ -46,7 +46,7 @@ int	ft_open_outfile(char **argv, t_data *data)
 		fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY | O_TRUNC, 0755);
 	if (fd == -1)
 	{
-		ft_printf("%s: permission denied: %s\n", argv[0], \
+		ft_printf("%s: cannot create %s: Permission denied\n", argv[0], \
 		argv[data->cmd + 1]);
 		ft_exit(data, EXIT_FAILURE);
 	}
@@ -55,26 +55,21 @@ int	ft_open_outfile(char **argv, t_data *data)
 
 void	ft_here_doc(char **argv, t_data *data)
 {
-	char	*line;
 	char	*here_doc;
 
-	here_doc = NULL;
 	while (TRUE)
 	{
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
-		line = get_next_line(0);
-		if (!line)
-			exit(EXIT_FAILURE);
-		if (ft_strlen(line) == ft_strlen(argv[2]) + 1 && \
-		!ft_strncmp(line, argv[2], ft_strlen(argv[2])))
-		{
-			free(line);
-			break ;
-		}
-		here_doc = ft_strjoin_free(here_doc, line);
+		here_doc = get_next_line(0);
 		if (!here_doc)
 			exit(EXIT_FAILURE);
+		if (ft_strlen(here_doc) == ft_strlen(argv[2]) + 1 && \
+		!ft_strncmp(here_doc, argv[2], ft_strlen(argv[2])))
+		{
+			free(here_doc);
+			break ;
+		}
+		ft_putstr_fd(here_doc, data->pipefd[1]);
+		free(here_doc);
 	}
-	ft_putstr_fd(here_doc, data->pipefd[1]);
-	free(here_doc);
 }

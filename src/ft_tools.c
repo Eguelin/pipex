@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:30:23 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/11 18:40:23 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 15:27:52 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_set_data(char **argv, t_data *data)
 {
-	if (ft_strlen(argv[1]) == 8 && !ft_strncmp(argv[1], "here_doc", 8))
+	if (!ft_strncmp(argv[1], "here_doc", 9))
 	{
 		data->cmd = 3;
 		data->here_doc = 1;

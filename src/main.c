@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/11 18:38:15 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 15:00:21 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **env)
 	ft_set_data(argv, &data);
 	if (argc <= 3 || (argc <= 4 && data.here_doc))
 	{
-		ft_printf("%s: parse error near `\\n'\n", argv[0]);
+		ft_printf("%s: Syntax error: newline unexpected\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
 	if (data.here_doc)
@@ -93,7 +93,7 @@ void	ft_exec(char **argv, char **env, t_data *data)
 
 	if (!argv[data->cmd][0])
 	{
-		ft_printf("%s: permission denied: %s\n", argv[0], argv[data->cmd]);
+		ft_printf("%s: %s: Permission denied\n", argv[0], argv[data->cmd]);
 		ft_exit(data, EXIT_FAILURE);
 	}
 	cmd = ft_split(argv[data->cmd], ' ');

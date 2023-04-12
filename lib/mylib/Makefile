@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 15:15:24 by eguelin           #+#    #+#              #
-#    Updated: 2023/04/11 19:04:08 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2023/04/12 14:32:50 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ PUT_FILES = ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c
 ALL_FILES += $(addprefix $(PUT_DIR), $(PUT_FILES))
 
 STR_DIR = str/
-STR_FILES = ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strjoin_free.c ft_strjoin_three.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c
+STR_FILES = ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strjoin_three.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c
 ALL_FILES += $(addprefix $(STR_DIR), $(STR_FILES))
 
 INC_FILES	= mylib.h

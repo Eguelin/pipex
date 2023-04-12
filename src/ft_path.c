@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 14:04:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/09 18:03:41 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 15:23:54 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ char	*ft_relative_path(char **argv, char **cmd, t_data *data)
 			return (cmd[0]);
 		else if (!access(cmd[0], F_OK))
 		{
-			ft_printf("%s: permission denied: %s\n", argv[0], cmd[0]);
+			ft_printf("%s: %s: Permission denied\n", argv[0], cmd[0]);
 			ft_free_split(cmd);
 			ft_exit(data, EXIT_FAILURE);
 		}
 		else
 		{
-			ft_printf("%s: no such file or directory: %s\n", argv[0], cmd[0]);
+			ft_printf("%s: %s: not found\n", argv[0], cmd[0]);
 			ft_free_split(cmd);
 			ft_exit(data, EXIT_FAILURE);
 		}
@@ -68,7 +68,7 @@ char	*ft_absolute_path(char **argv, char **cmd, t_data *data)
 		free(path);
 		i++;
 	}
-	ft_printf("%s: command not found: %s\n", argv[0], cmd[0]);
+	ft_printf("%s: %s: not found\n", argv[0], cmd[0]);
 	ft_free_split(cmd);
 	ft_exit(data, EXIT_FAILURE);
 	return (NULL);
