@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 18:24:23 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/13 14:14:15 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,16 @@ int	main(int argc, char **argv, char **env)
 	else
 		ft_dup(ft_open_infile(argv), STDIN_FILENO, &data);
 	exit_ft = ft_pipex(argv, env, &data);
-	close(0);
 	return (exit_ft);
 }
 
 int	ft_pipex(char **argv, char **env, t_data *data)
 {
-	int		exit_ft;
+	int	exit_ft;
+	int	wait;
 
 	exit_ft = 0;
+	wait = 0;
 	ft_path_list(env, data);
 	while (argv[data->cmd + 1])
 	{
@@ -61,6 +62,9 @@ int	ft_pipex(char **argv, char **env, t_data *data)
 		}
 	}
 	waitpid(data->pid, &exit_ft, 0);
+	close(0);
+	while (wait != -1)
+		wait = waitpid(-1, NULL, 0);
 	ft_free_split(data->path_list);
 	return (WEXITSTATUS(exit_ft));
 }
