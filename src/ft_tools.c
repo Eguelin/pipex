@@ -6,13 +6,13 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:30:23 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 19:49:47 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 18:19:38 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_set_data(int argc, char **argv, t_data *data)
+void	ft_set_data(char **argv, t_data *data)
 {
 	if (!ft_strncmp(argv[1], "here_doc", 9))
 	{
@@ -24,12 +24,9 @@ void	ft_set_data(int argc, char **argv, t_data *data)
 		data->cmd = 2;
 		data->here_doc = 0;
 	}
-	data->n_cmd = argc - (data->cmd + 1);
 	data->pipefd[0] = -1;
 	data->pipefd[1] = -1;
-	data->pid = malloc(sizeof(pid_t) * data->n_cmd);
-	if (!data->pid)
-		exit(1);
+	data->pid = 1;
 	data->path_list = NULL;
 }
 
@@ -64,11 +61,11 @@ void	ft_close(int *fd)
 
 void	ft_exit(t_data *data, int i)
 {
-	free(data->pid);
 	ft_free_split(data->path_list);
 	ft_close(&data->pipefd[0]);
 	ft_close(&data->pipefd[1]);
 	close(0);
-	close(1);
+	if (!data->pid)
+		close(1);
 	exit (i);
 }

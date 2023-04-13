@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:43:10 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/12 19:19:17 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/12 16:25:19 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@
 typedef struct s_data
 {
 	int		cmd;
-	int		n_cmd;
 	int		here_doc;
 	int		pipefd[2];
-	pid_t	*pid;
+	pid_t	pid;
 	char	**path_list;
 }	t_data;
 
@@ -46,6 +45,6 @@ char	*ft_check_absolute_path(char **argv, char **cmd, t_data *data);
 void	ft_exit(t_data *data, int i);
 void	ft_close(int *fd);
 void	ft_dup(int fd, int fd2, t_data *data);
-void	ft_set_data(int argc, char **argv, t_data *data);
+void	ft_set_data(char **argv, t_data *data);
 
 #endif
