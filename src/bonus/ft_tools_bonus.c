@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tools.c                                         :+:      :+:    :+:   */
+/*   ft_tools_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:30:23 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/14 13:23:45 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/14 15:48:27 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-void	ft_set_data(t_data *data)
+void	ft_set_data(char **argv, t_data *data)
 {
-	data->cmd = 2;
+	if (argv[1] && !ft_strncmp(argv[1], "here_doc", 9))
+	{
+		data->cmd = 3;
+		data->here_doc = 1;
+	}
+	else
+	{
+		data->cmd = 2;
+		data->here_doc = 0;
+	}
 	data->pipefd[0] = -1;
 	data->pipefd[1] = -1;
 	data->pid = 1;

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_file.c                                          :+:      :+:    :+:   */
+/*   ft_file_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 13:24:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/14 14:22:36 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/14 14:30:25 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	ft_open_infile(char **argv)
 {
@@ -40,7 +40,10 @@ int	ft_open_outfile(char **argv, t_data *data)
 		argv[data->cmd + 1]);
 		ft_exit(data, 2);
 	}
-	fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY | O_TRUNC, 0755);
+	if (data->here_doc)
+		fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY | O_APPEND, 0755);
+	else
+		fd = open(argv[data->cmd + 1], O_CREAT | O_WRONLY | O_TRUNC, 0755);
 	if (fd == -1)
 	{
 		ft_printf("%s: %s: Permission denied\n", argv[0], \
@@ -48,4 +51,25 @@ int	ft_open_outfile(char **argv, t_data *data)
 		ft_exit(data, 2);
 	}
 	return (fd);
+}
+
+void	ft_here_doc(char **argv, t_data *data)
+{
+	char	*here_doc;
+
+	while (TRUE)
+	{
+		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+		here_doc = get_next_line(0);
+		if (!here_doc)
+			exit(EXIT_FAILURE);
+		if (ft_strlen(here_doc) == ft_strlen(argv[2]) + 1 && \
+		!ft_strncmp(here_doc, argv[2], ft_strlen(argv[2])))
+		{
+			free(here_doc);
+			break ;
+		}
+		ft_putstr_fd(here_doc, data->pipefd[1]);
+		free(here_doc);
+	}
 }
