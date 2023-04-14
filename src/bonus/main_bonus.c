@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 16:49:30 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/14 16:04:45 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/14 17:29:37 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,7 @@ int	main(int argc, char **argv, char **env)
 		return (2);
 	}
 	if (data.here_doc)
-	{
-		if (pipe(data.pipefd) == -1)
-			exit(EXIT_FAILURE);
 		ft_here_doc(argv, &data);
-		ft_close(&data.pipefd[1]);
-		ft_dup(data.pipefd[0], STDIN_FILENO, &data);
-	}
 	else
 		ft_dup(ft_open_infile(argv), STDIN_FILENO, &data);
 	exit_ft = ft_pipex(argv, env, &data);

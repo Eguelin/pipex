@@ -6,7 +6,7 @@
 /*   By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 13:24:44 by eguelin           #+#    #+#             */
-/*   Updated: 2023/04/14 14:30:25 by eguelin          ###   ########lyon.fr   */
+/*   Updated: 2023/04/14 17:31:36 by eguelin          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ void	ft_here_doc(char **argv, t_data *data)
 {
 	char	*here_doc;
 
+	if (pipe(data->pipefd) == -1)
+		exit(EXIT_FAILURE);
 	while (TRUE)
 	{
 		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		here_doc = get_next_line(0);
 		if (!here_doc)
-			exit(EXIT_FAILURE);
+			ft_exit(data, EXIT_FAILURE);
 		if (ft_strlen(here_doc) == ft_strlen(argv[2]) + 1 && \
 		!ft_strncmp(here_doc, argv[2], ft_strlen(argv[2])))
 		{
@@ -72,4 +74,6 @@ void	ft_here_doc(char **argv, t_data *data)
 		ft_putstr_fd(here_doc, data->pipefd[1]);
 		free(here_doc);
 	}
+	ft_close(&data->pipefd[1]);
+	ft_dup(data->pipefd[0], STDIN_FILENO, data);
 }
